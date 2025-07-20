@@ -1,0 +1,540 @@
+import { useState, useEffect } from 'react';
+import { Canvas } from '@react-three/fiber';
+import { OrbitControls, Float, Environment } from '@react-three/drei';
+import axios from 'axios';
+import './App.css';
+
+const emerald = '#2ecc71';
+
+function ThemeToggle({ theme, setTheme }: { theme: string; setTheme: (t: string) => void }) {
+  return (
+    <button className="theme-toggle" onClick={() => setTheme(theme === 'emerald-dark' ? 'emerald-light' : 'emerald-dark')}>
+      <span className="theme-icon">
+        {theme === 'emerald-dark' ? '☀️' : '🌙'}
+      </span>
+    </button>
+  );
+}
+
+function App() {
+  const [theme, setTheme] = useState('emerald-dark');
+  const [currentPage, setCurrentPage] = useState('about');
+
+  const pages = [
+    { id: 'about', name: 'About', icon: '👨‍💻' },
+    { id: 'work', name: 'Work Experience', icon: '💼' },
+    { id: 'contact', name: 'Contact', icon: '📞' },
+    { id: 'research', name: 'Research', icon: '🔬' },
+    { id: 'projects', name: 'Projects', icon: '🚀' },
+    { id: 'blogs', name: 'Blogs', icon: '📝' },
+    { id: 'education', name: 'Education', icon: '🎓' }
+  ];
+
+  return (
+    { id: 'blogs', name: 'Blogs', icon: '📝' },
+    { id: 'education', name: 'Education', icon: '🎓' }
+  ]; from 'react';
+import { Canvas } from '@react-three/fiber';
+import { OrbitControls, Float, Environment } from '@react-three/drei';
+import axios from 'axios';
+import './App.css';
+
+const emerald = '#2ecc71';
+
+function ThemeToggle({ theme, setTheme }: { theme: string; setTheme: (t: string) => void }) {
+  return (
+    <button className="theme-toggle" onClick={() => setTheme(theme === 'emerald-dark' ? 'emerald-light' : 'emerald-dark')}>
+      {theme === 'emerald-dark' ? 'Switch to Light' : 'Switch to Dark'}
+    </button>
+  );
+}
+
+function App() {
+  const [theme, setTheme] = useState('emerald-dark');
+  const [currentPage, setCurrentPage] = useState('home');
+
+  const pages = [
+    { id: 'home', name: 'Home', icon: '🏠' },
+    { id: 'about', name: 'About', icon: '👨‍💻' },
+    { id: 'work', name: 'Work Experience', icon: '💼' },
+    { id: 'contact', name: 'Contact', icon: '�' },
+    { id: 'research', name: 'Research', icon: '�' },
+    { id: 'projects', name: 'Projects', icon: '🚀' },
+    { id: 'blogs', name: 'Blogs', icon: '📝' },
+    { id: 'education', name: 'Education', icon: '🎓' }
+  ];
+
+  return (
+    <div className={`app-root ${theme}`}>
+      <nav className="nav-bar">
+        <div className="nav-container">
+          <div className="logo">
+            <span className="logo-text">DAKSH MALHOTRA</span>
+            <div className="logo-animation">✨</div>
+          </div>
+          <div className="nav-buttons">
+            {pages.map(page => (
+              <button
+                key={page.id}
+                className={`nav-btn ${currentPage === page.id ? 'active' : ''}`}
+                onClick={() => setCurrentPage(page.id)}
+              >
+                <span className="nav-icon">{page.icon}</span>
+                <span className="nav-text">{page.name}</span>
+              </button>
+            ))}
+          </div>
+        </div>
+      </nav>
+
+      <div className="theme-toggle-container">
+        <ThemeToggle theme={theme} setTheme={setTheme} />
+      </div>
+
+      <div className="page-container">
+        {currentPage === 'about' && <AboutPage />}
+        {currentPage === 'work' && <WorkExperiencePage />}
+        {currentPage === 'contact' && <ContactPage />}
+        {currentPage === 'research' && <ResearchPage />}
+        {currentPage === 'projects' && <ProjectsPage />}
+        {currentPage === 'blogs' && <BlogsPage />}
+        {currentPage === 'education' && <EducationPage />}
+      </div>
+    </div>
+  );
+}
+
+// BlogTiles: Fetches and displays Medium blog posts as tiles
+function BlogTiles({ mediumLinks }: { mediumLinks: string[] }) {
+  const [posts, setPosts] = useState<any[]>([]);
+
+  useEffect(() => {
+    async function fetchMedium() {
+      const allPosts: any[] = [];
+      for (const link of mediumLinks) {
+        try {
+          const rssUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(link)}`;
+          const res = await axios.get(rssUrl);
+          if (res.data && res.data.items) {
+            allPosts.push(...res.data.items.slice(0, 3));
+          }
+        } catch (e) { }
+      }
+      setPosts(allPosts);
+    }
+    fetchMedium();
+  }, [mediumLinks]);
+
+  return (
+    <div className="blog-tiles">
+      {posts.length === 0 ? <p>Loading blogs...</p> : posts.map(post => (
+        <a key={post.guid} href={post.link} target="_blank" rel="noopener" className="blog-tile">
+          <img src={post.thumbnail || ''} alt={post.title} />
+          <div className="blog-tile-content">
+            <h3>{post.title}</h3>
+            <p>{post.description?.slice(0, 80)}...</p>
+          </div>
+        </a>
+      ))}
+    </div>
+  );
+}
+
+// ProjectCards: Displays featured projects
+function ProjectCards({ projects }: { projects: any[] }) {
+  return (
+    <div className="project-cards">
+      {projects.map((proj, idx) => (
+        <div key={idx} className="project-card">
+          <img src={proj.image} alt={proj.title} />
+          <div className="project-card-content">
+            <h3>{proj.title}</h3>
+            <p>{proj.description}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+// ContactForm: Simple contact form
+function ContactForm() {
+  const [form, setForm] = useState({ name: '', email: '', message: '' });
+  const [sent, setSent] = useState(false);
+
+  function handleChange(e: any) {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  }
+  function handleSubmit(e: any) {
+    e.preventDefault();
+    setSent(true);
+    // Integrate with backend/email service as needed
+  }
+
+  return (
+    <form className="contact-form" onSubmit={handleSubmit}>
+      <h3>Contact Me</h3>
+      <input name="name" placeholder="Your Name" value={form.name} onChange={handleChange} required />
+      <input name="email" type="email" placeholder="Your Email" value={form.email} onChange={handleChange} required />
+      <textarea name="message" placeholder="Your Message" value={form.message} onChange={handleChange} required />
+      <button type="submit">Send</button>
+      {sent && <p className="sent-msg">Thank you! I'll get back to you soon.</p>}
+    </form>
+  );
+}
+
+// Individual Page Components with Crazy Animations
+function HomePage() {
+  return (
+    <div className="page home-page">
+      <div className="hero-section">
+        <div className="hero-3d">
+          <Canvas camera={{ position: [0, 0, 4] }} shadows>
+            <ambientLight intensity={0.7} />
+            <directionalLight position={[5, 5, 5]} intensity={1.2} castShadow />
+            <CrazyAnimatedCube />
+            <OrbitControls enableZoom={false} enablePan={false} />
+            <Environment preset="city" />
+          </Canvas>
+        </div>
+        <div className="hero-content">
+          <h1 className="glitch-text">Welcome to My Portfolio</h1>
+          <h2 className="typing-text">Daksh - Software & AI Engineer</h2>
+          <p className="fade-in-text">Explore my journey through technology, innovation, and creativity.</p>
+          <div className="floating-particles">
+            <span className="particle">💫</span>
+            <span className="particle">⚡</span>
+            <span className="particle">🔥</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function AboutPage() {
+  return (
+    <div className="page about-page">
+      <div className="page-header">
+        <div className="page-3d">
+          <Canvas camera={{ position: [0, 0, 4] }} shadows>
+            <ambientLight intensity={0.7} />
+            <directionalLight position={[5, 5, 5]} intensity={1.2} castShadow />
+            <PulsingOrb color="#3498db" />
+            <OrbitControls enableZoom={false} enablePan={false} />
+            <Environment preset="city" />
+          </Canvas>
+        </div>
+        <div className="page-content">
+          <h1 className="bounce-text">Hi, I'm Daksh</h1>
+          <h2 className="typing-text">Software & AI Engineer</h2>
+          <p className="fade-in-text">Building creative, intelligent, and beautiful digital experiences.</p>
+          <p className="slide-in-text">
+            I am a passionate software and AI engineer, focused on building innovative solutions and creative digital experiences. My expertise spans full-stack development, machine learning, and interactive 3D web technologies.
+          </p>
+          <div className="skill-bubbles">
+            <div className="bubble">React</div>
+            <div className="bubble">AI/ML</div>
+            <div className="bubble">Three.js</div>
+            <div className="bubble">Python</div>
+            <div className="bubble">Node.js</div>
+            <div className="bubble">TypeScript</div>
+            <div className="bubble">Deep Learning</div>
+            <div className="bubble">Computer Vision</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function WorkExperiencePage() {
+  return (
+    <div className="page work-page">
+      <div className="page-header">
+        <div className="page-3d">
+          <Canvas camera={{ position: [0, 0, 4] }} shadows>
+            <ambientLight intensity={0.7} />
+            <directionalLight position={[5, 5, 5]} intensity={1.2} castShadow />
+            <RotatingCone color="#e67e22" />
+            <OrbitControls enableZoom={false} enablePan={false} />
+            <Environment preset="city" />
+          </Canvas>
+        </div>
+        <div className="page-content">
+          <h1 className="shake-text">Work Experience</h1>
+          <p className="flip-text">My professional journey includes impactful roles in software engineering, AI research, and product development.</p>
+          <div className="experience-timeline">
+            <div className="timeline-item">
+              <div className="timeline-date">2024</div>
+              <div className="timeline-content">
+                <h3>Senior Software Engineer</h3>
+                <p>Leading AI/ML initiatives and full-stack development projects</p>
+              </div>
+            </div>
+            <div className="timeline-item">
+              <div className="timeline-date">2023</div>
+              <div className="timeline-content">
+                <h3>AI Research Assistant</h3>
+                <p>Conducted research in computer vision and natural language processing</p>
+              </div>
+            </div>
+            <div className="timeline-item">
+              <div className="timeline-date">2022</div>
+              <div className="timeline-content">
+                <h3>Full Stack Developer</h3>
+                <p>Developed scalable web applications using modern technologies</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function ContactPage() {
+  return (
+    <div className="page contact-page">
+      <div className="page-header">
+        <div className="page-3d">
+          <Canvas camera={{ position: [0, 0, 4] }} shadows>
+            <ambientLight intensity={0.7} />
+            <directionalLight position={[5, 5, 5]} intensity={1.2} castShadow />
+            <LevitatingCylinder color="#e74c3c" />
+            <OrbitControls enableZoom={false} enablePan={false} />
+            <Environment preset="city" />
+          </Canvas>
+        </div>
+        <div className="page-content">
+          <h1 className="pulse-text">Contact</h1>
+          <p className="glow-text">Interested in collaborating or learning more? Reach out via the contact form below.</p>
+          <ContactForm />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function ResearchPage() {
+  return (
+    <div className="page research-page">
+      <div className="page-header">
+        <div className="page-3d">
+          <Canvas camera={{ position: [0, 0, 4] }} shadows>
+            <ambientLight intensity={0.7} />
+            <directionalLight position={[5, 5, 5]} intensity={1.2} castShadow />
+            <MorphingShape color="#9b59b6" />
+            <OrbitControls enableZoom={false} enablePan={false} />
+            <Environment preset="city" />
+          </Canvas>
+        </div>
+        <div className="page-content">
+          <h1 className="rainbow-text">Research</h1>
+          <p className="elastic-text">Exploring cutting-edge technologies and contributing to scientific advancement.</p>
+          <div className="research-grid">
+            <div className="research-item">
+              <h3>Machine Learning in Healthcare</h3>
+              <p>Developing AI models for medical diagnosis and treatment prediction</p>
+            </div>
+            <div className="research-item">
+              <h3>Computer Vision Applications</h3>
+              <p>Creating intelligent systems for image recognition and analysis</p>
+            </div>
+            <div className="research-item">
+              <h3>Natural Language Processing</h3>
+              <p>Building conversational AI and text analysis systems</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function ProjectsPage() {
+  return (
+    <div className="page projects-page">
+      <div className="page-header">
+        <div className="page-3d">
+          <Canvas camera={{ position: [0, 0, 4] }} shadows>
+            <ambientLight intensity={0.7} />
+            <directionalLight position={[5, 5, 5]} intensity={1.2} castShadow />
+            <SpinningTorus color="#2ecc71" />
+            <OrbitControls enableZoom={false} enablePan={false} />
+            <Environment preset="city" />
+          </Canvas>
+        </div>
+        <div className="page-content">
+          <h1 className="zoom-text">Projects</h1>
+          <p className="wave-text">Showcase of my technical projects and creative implementations.</p>
+          <div className="projects-grid">
+            <ProjectCards projects={[
+              { title: "AI Chatbot", description: "Conversational AI powered by transformer models.", image: "" },
+              { title: "3D Portfolio", description: "Creative portfolio with Three.js and React.", image: "" },
+              { title: "ML Dashboard", description: "Interactive dashboard for machine learning experiments.", image: "" },
+              { title: "Computer Vision App", description: "Real-time object detection and classification system.", image: "" },
+              { title: "Neural Network Visualizer", description: "Interactive tool for understanding deep learning architectures.", image: "" },
+              { title: "Data Analytics Platform", description: "Comprehensive platform for data analysis and visualization.", image: "" }
+            ]} />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function BlogsPage() {
+  return (
+    <div className="page blogs-page">
+      <div className="page-header">
+        <div className="page-3d">
+          <Canvas camera={{ position: [0, 0, 4] }} shadows>
+            <ambientLight intensity={0.7} />
+            <directionalLight position={[5, 5, 5]} intensity={1.2} castShadow />
+            <FloatingDiamond color="#f39c12" />
+            <OrbitControls enableZoom={false} enablePan={false} />
+            <Environment preset="city" />
+          </Canvas>
+        </div>
+        <div className="page-content">
+          <h1 className="glitch-text">Blogs</h1>
+          <p className="slide-in-text">Sharing insights, tutorials, and thoughts on technology and innovation.</p>
+          <div className="blogs-container">
+            <BlogTiles mediumLinks={["https://medium.com/@yourusername/latest"]} />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function EducationPage() {
+  return (
+    <div className="page education-page">
+      <div className="page-header">
+        <div className="page-3d">
+          <Canvas camera={{ position: [0, 0, 4] }} shadows>
+            <ambientLight intensity={0.7} />
+            <directionalLight position={[5, 5, 5]} intensity={1.2} castShadow />
+            <PulsingOctahedron color="#1abc9c" />
+            <OrbitControls enableZoom={false} enablePan={false} />
+            <Environment preset="city" />
+          </Canvas>
+        </div>
+        <div className="page-content">
+          <h1 className="bounce-text">Education</h1>
+          <p className="elastic-text">My academic journey and continuous learning in technology and AI.</p>
+          <div className="education-cards">
+            <div className="edu-card">
+              <h3>Computer Science Degree</h3>
+              <p>Bachelor's in Computer Science</p>
+              <p>University Name - 2021</p>
+            </div>
+            <div className="edu-card">
+              <h3>AI/ML Specialization</h3>
+              <p>Machine Learning and Deep Learning</p>
+              <p>Tech Institute - 2022</p>
+            </div>
+            <div className="edu-card">
+              <h3>Full Stack Development</h3>
+              <p>Modern Web Development Technologies</p>
+              <p>Online Certification - 2023</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// Crazy 3D Animations
+function CrazyAnimatedCube() {
+  return (
+    <Float speed={4} rotationIntensity={2} floatIntensity={3}>
+      <mesh castShadow receiveShadow rotation={[0.5, 0.5, 0]}>
+        <boxGeometry args={[1.5, 1.5, 1.5]} />
+        <meshStandardMaterial color={emerald} metalness={0.8} roughness={0.1} />
+      </mesh>
+    </Float>
+  );
+}
+
+function PulsingOrb({ color }: { color: string }) {
+  return (
+    <Float speed={3} rotationIntensity={0.5} floatIntensity={2}>
+      <mesh castShadow receiveShadow>
+        <sphereGeometry args={[1.2, 32, 32]} />
+        <meshStandardMaterial color={color} metalness={0.9} roughness={0.1} />
+      </mesh>
+    </Float>
+  );
+}
+
+function SpinningTorus({ color }: { color: string }) {
+  return (
+    <Float speed={2} rotationIntensity={3} floatIntensity={1}>
+      <mesh castShadow receiveShadow>
+        <torusGeometry args={[1, 0.4, 16, 100]} />
+        <meshStandardMaterial color={color} metalness={0.7} roughness={0.2} />
+      </mesh>
+    </Float>
+  );
+}
+
+function RotatingCone({ color }: { color: string }) {
+  return (
+    <Float speed={2.5} rotationIntensity={2.5} floatIntensity={2}>
+      <mesh castShadow receiveShadow>
+        <coneGeometry args={[1, 2, 32]} />
+        <meshStandardMaterial color={color} metalness={0.8} roughness={0.1} />
+      </mesh>
+    </Float>
+  );
+}
+
+function MorphingShape({ color }: { color: string }) {
+  return (
+    <Float speed={1.5} rotationIntensity={1.8} floatIntensity={2.5}>
+      <mesh castShadow receiveShadow>
+        <icosahedronGeometry args={[1.2, 0]} />
+        <meshStandardMaterial color={color} metalness={0.6} roughness={0.3} />
+      </mesh>
+    </Float>
+  );
+}
+
+function LevitatingCylinder({ color }: { color: string }) {
+  return (
+    <Float speed={2} rotationIntensity={1.5} floatIntensity={3}>
+      <mesh castShadow receiveShadow>
+        <cylinderGeometry args={[1, 1, 2, 32]} />
+        <meshStandardMaterial color={color} metalness={0.7} roughness={0.2} />
+      </mesh>
+    </Float>
+  );
+}
+
+function FloatingDiamond({ color }: { color: string }) {
+  return (
+    <Float speed={3} rotationIntensity={2} floatIntensity={2.5}>
+      <mesh castShadow receiveShadow>
+        <octahedronGeometry args={[1.2, 0]} />
+        <meshStandardMaterial color={color} metalness={0.8} roughness={0.1} />
+      </mesh>
+    </Float>
+  );
+}
+
+function PulsingOctahedron({ color }: { color: string }) {
+  return (
+    <Float speed={2.5} rotationIntensity={1.8} floatIntensity={2}>
+      <mesh castShadow receiveShadow>
+        <octahedronGeometry args={[1.1, 1]} />
+        <meshStandardMaterial color={color} metalness={0.9} roughness={0.1} />
+      </mesh>
+    </Float>
+  );
+}
+
+export default App;
