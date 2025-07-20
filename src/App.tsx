@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import './App.css';
 
@@ -7,6 +7,7 @@ const pages = [
   { id: 'education', name: 'Education', icon: '🎓', color: '#007cf0' },     // Electric Blue  
   { id: 'work', name: 'Work Experience', icon: '💼', color: '#7f00ff' },   // Purple Accent
   { id: 'projects', name: 'Projects', icon: '🚀', color: '#00ffff' },      // Cyan
+  { id: 'resume', name: 'Resume', icon: '📄', color: '#ff6b35' },          // Orange
   { id: 'blogs', name: 'Blogs', icon: '📝', color: '#ec008c' },            // Pink/Hot Pink
   { id: 'research', name: 'Research', icon: '🔬', color: '#ffa040' },      // Coral Red
   { id: 'contact', name: 'Contact', icon: '📞', color: '#1484cd' }         // Deep Blue
@@ -28,6 +29,8 @@ function ModeToggle({ isDarkMode, setIsDarkMode }: { isDarkMode: boolean; setIsD
 } function App() {
   const [isDarkMode, setIsDarkMode] = useState(true);
   const [currentPage, setCurrentPage] = useState('about');
+  const [toggleBottom, setToggleBottom] = useState(40); // px from bottom
+  const footerRef = useRef<HTMLDivElement | null>(null);
 
   // Page to theme mapping based on exact colors
   const pageThemeMap: { [key: string]: string } = {
@@ -35,6 +38,7 @@ function ModeToggle({ isDarkMode, setIsDarkMode }: { isDarkMode: boolean; setIsD
     'education': 'electric-blue',
     'work': 'purple',
     'projects': 'cyan',
+    'resume': 'orange',
     'blogs': 'pink',
     'research': 'coral',
     'contact': 'deep-blue'
@@ -43,6 +47,31 @@ function ModeToggle({ isDarkMode, setIsDarkMode }: { isDarkMode: boolean; setIsD
   // Get current theme based on page and mode
   const currentTheme = `${pageThemeMap[currentPage]}-${isDarkMode ? 'dark' : 'light'}`;
   const currentPageData = pages.find(p => p.id === currentPage);
+
+  // Dynamically position toggle above footer background
+  useEffect(() => {
+    const handleScroll = () => {
+      if (!footerRef.current) return;
+      const footerRect = footerRef.current.getBoundingClientRect();
+      const windowHeight = window.innerHeight;
+      const defaultBottom = 40; // px
+      const gap = 16; // px gap above footer
+      if (footerRect.top < windowHeight) {
+        // Footer is visible, move toggle up just above footer
+        const overlap = windowHeight - footerRect.top;
+        setToggleBottom(Math.max(defaultBottom, overlap + gap));
+      } else {
+        setToggleBottom(defaultBottom);
+      }
+    };
+    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('resize', handleScroll);
+    handleScroll();
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('resize', handleScroll);
+    };
+  }, []);
 
   return (
     <div
@@ -91,7 +120,7 @@ function ModeToggle({ isDarkMode, setIsDarkMode }: { isDarkMode: boolean; setIsD
         </div>
       </nav>
 
-      <div className="mode-toggle-container">
+      <div className="mode-toggle-container" style={{ bottom: toggleBottom, right: 20, position: 'fixed' }}>
         <ModeToggle isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} />
       </div>
 
@@ -101,12 +130,13 @@ function ModeToggle({ isDarkMode, setIsDarkMode }: { isDarkMode: boolean; setIsD
         {currentPage === 'contact' && <ContactPage />}
         {currentPage === 'research' && <ResearchPage />}
         {currentPage === 'projects' && <ProjectsPage />}
+        {currentPage === 'resume' && <ResumePage />}
         {currentPage === 'blogs' && <BlogsPage />}
         {currentPage === 'education' && <EducationPage />}
       </div>
 
       {/* Footer */}
-      <footer className="footer">
+      <footer className="footer" ref={footerRef}>
         <div className="footer-content">
           <div className="footer-simple">
             <p>© 2025 Daksh Malhotra. All rights reserved.</p>
@@ -159,7 +189,7 @@ function BlogTiles({ mediumLinks }: { mediumLinks: string[] }) {
 // ProjectCards: Displays featured projects
 function ProjectCards({ projects }: { projects: any[] }) {
   return (
-    <div className="project-cards">
+    <>
       {projects.map((proj, idx) => (
         <div key={idx} className="project-card glass-card">
           <div className="project-card-content">
@@ -169,7 +199,7 @@ function ProjectCards({ projects }: { projects: any[] }) {
           </div>
         </div>
       ))}
-    </div>
+    </>
   );
 }
 
@@ -349,6 +379,26 @@ function ResearchPage() {
 }
 
 function ProjectsPage() {
+  // Example projects array (expand as needed)
+  const projects = [
+    { title: "AI Chatbot", description: "Conversational AI powered by transformer models." },
+    { title: "3D Portfolio", description: "Creative portfolio with Three.js and React." },
+    { title: "ML Dashboard", description: "Interactive dashboard for machine learning experiments." },
+    { title: "Computer Vision App", description: "Real-time object detection and classification system." },
+    { title: "Neural Network Visualizer", description: "Interactive tool for understanding deep learning architectures." },
+    { title: "Data Analytics Platform", description: "Comprehensive platform for data analysis and visualization." },
+    { title: "2-Tier Application Deployment", description: "Deployed a scalable two-tier application using Flask and MySQL on a Kubernetes cluster with Docker, capable of handling 10,000 concurrent users." },
+    { title: "Infrastructure as Code Deployment", description: "Provisioned and managed AWS infrastructure using Terraform with GitHub Actions CI/CD, supporting reusable and modular configurations for scalable cloud deployments." },
+    { title: "HashMap.ai", description: "Built the backend for an AI-powered job application platform using a monorepo structure, Kafka for real-time messaging between Golang and Node.js microservices." },
+    // Add more projects as needed
+  ];
+  const projectsPerPage = 6;
+  const [currentPage, setCurrentPage] = useState(1);
+  const totalPages = Math.ceil(projects.length / projectsPerPage);
+  const startIdx = (currentPage - 1) * projectsPerPage;
+  const endIdx = startIdx + projectsPerPage;
+  const currentProjects = projects.slice(startIdx, endIdx);
+
   return (
     <div className="page projects-page">
       <div className="page-header">
@@ -358,14 +408,22 @@ function ProjectsPage() {
           </h1>
           <p className="description wave-text">Showcase of my technical projects and creative implementations.</p>
           <div className="projects-grid">
-            <ProjectCards projects={[
-              { title: "AI Chatbot", description: "Conversational AI powered by transformer models." },
-              { title: "3D Portfolio", description: "Creative portfolio with Three.js and React." },
-              { title: "ML Dashboard", description: "Interactive dashboard for machine learning experiments." },
-              { title: "Computer Vision App", description: "Real-time object detection and classification system." },
-              { title: "Neural Network Visualizer", description: "Interactive tool for understanding deep learning architectures." },
-              { title: "Data Analytics Platform", description: "Comprehensive platform for data analysis and visualization." }
-            ]} />
+            <ProjectCards projects={currentProjects} />
+          </div>
+          {/* Pagination Controls */}
+          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '2rem', gap: '1rem' }}>
+            <button className="glass-btn" onClick={() => setCurrentPage(p => Math.max(1, p - 1))} disabled={currentPage === 1}>&laquo; Prev</button>
+            {Array.from({ length: totalPages }, (_, i) => (
+              <button
+                key={i + 1}
+                className={`glass-btn${currentPage === i + 1 ? ' active' : ''}`}
+                style={{ minWidth: 36, fontWeight: currentPage === i + 1 ? 700 : 500 }}
+                onClick={() => setCurrentPage(i + 1)}
+              >
+                {i + 1}
+              </button>
+            ))}
+            <button className="glass-btn" onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))} disabled={currentPage === totalPages}>Next &raquo;</button>
           </div>
         </div>
       </div>
@@ -415,6 +473,129 @@ function EducationPage() {
               <h3>Full Stack Development</h3>
               <p>Modern Web Development Technologies</p>
               <p>Online Certification - 2023</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function ResumePage() {
+  return (
+    <div className="page resume-page">
+      <div className="page-header">
+        <div className="glass-content">
+          <h1 className="main-title gradient-text wave-text">
+            <span className="page-icon">📄</span> Resume
+          </h1>
+          <p className="description fade-in-text">Professional summary of my skills, experience, and achievements.</p>
+          
+          <div className="resume-container">
+            {/* Download Button */}
+            <div className="resume-download glass-card">
+              <h3 className="gradient-text">📄 Download Resume</h3>
+              <p>Get a PDF version of my complete resume</p>
+              <button 
+                className="cta-button"
+                onClick={() => window.open('/resume.pdf', '_blank')}
+              >
+                Download PDF 📥
+              </button>
+            </div>
+
+            {/* Resume Sections */}
+            <div className="resume-sections">
+              {/* Summary */}
+              <div className="resume-section glass-card">
+                <h3 className="section-title gradient-text">Professional Summary</h3>
+                <p>Experienced Software & AI Engineer with expertise in full-stack development, machine learning, and interactive web technologies. Passionate about creating innovative solutions and pushing the boundaries of what's possible with technology.</p>
+              </div>
+
+              {/* Skills */}
+              <div className="resume-section glass-card">
+                <h3 className="section-title gradient-text">Technical Skills</h3>
+                <div className="skills-grid">
+                  <div className="skill-category">
+                    <h4>Programming Languages</h4>
+                    <div className="skill-tags">
+                      <span className="skill-tag">JavaScript/TypeScript</span>
+                      <span className="skill-tag">Python</span>
+                      <span className="skill-tag">Java</span>
+                      <span className="skill-tag">C++</span>
+                    </div>
+                  </div>
+                  <div className="skill-category">
+                    <h4>Frontend</h4>
+                    <div className="skill-tags">
+                      <span className="skill-tag">React</span>
+                      <span className="skill-tag">Vue.js</span>
+                      <span className="skill-tag">Three.js</span>
+                      <span className="skill-tag">HTML/CSS</span>
+                    </div>
+                  </div>
+                  <div className="skill-category">
+                    <h4>Backend & Databases</h4>
+                    <div className="skill-tags">
+                      <span className="skill-tag">Node.js</span>
+                      <span className="skill-tag">Express</span>
+                      <span className="skill-tag">MongoDB</span>
+                      <span className="skill-tag">PostgreSQL</span>
+                    </div>
+                  </div>
+                  <div className="skill-category">
+                    <h4>AI/ML</h4>
+                    <div className="skill-tags">
+                      <span className="skill-tag">TensorFlow</span>
+                      <span className="skill-tag">PyTorch</span>
+                      <span className="skill-tag">Computer Vision</span>
+                      <span className="skill-tag">NLP</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Experience */}
+              <div className="resume-section glass-card">
+                <h3 className="section-title gradient-text">Work Experience</h3>
+                <div className="experience-item">
+                  <div className="experience-header">
+                    <h4>Senior Software Engineer</h4>
+                    <span className="experience-date">2024 - Present</span>
+                  </div>
+                  <p className="company">Tech Company Inc.</p>
+                  <ul>
+                    <li>Led AI/ML initiatives and full-stack development projects</li>
+                    <li>Developed scalable web applications using modern technologies</li>
+                    <li>Mentored junior developers and conducted code reviews</li>
+                  </ul>
+                </div>
+                <div className="experience-item">
+                  <div className="experience-header">
+                    <h4>AI Research Assistant</h4>
+                    <span className="experience-date">2023 - 2024</span>
+                  </div>
+                  <p className="company">Research Institute</p>
+                  <ul>
+                    <li>Conducted research in computer vision and natural language processing</li>
+                    <li>Published papers in top-tier conferences</li>
+                    <li>Developed novel algorithms for image recognition</li>
+                  </ul>
+                </div>
+              </div>
+
+              {/* Education */}
+              <div className="resume-section glass-card">
+                <h3 className="section-title gradient-text">Education</h3>
+                <div className="education-item">
+                  <div className="education-header">
+                    <h4>Bachelor of Science in Computer Science</h4>
+                    <span className="education-date">2019 - 2023</span>
+                  </div>
+                  <p className="institution">University Name</p>
+                  <p>GPA: 3.8/4.0 | Relevant Coursework: Data Structures, Algorithms, Machine Learning, Computer Vision</p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
