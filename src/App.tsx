@@ -279,15 +279,54 @@ function AboutPage() {
           <p className="bio slide-in-text">
             I am a passionate software and AI engineer, focused on building innovative solutions and creative digital experiences. My expertise spans full-stack development, machine learning, and interactive 3D web technologies.
           </p>
-          <div className="skill-bubbles">
-            <div className="bubble glass-bubble">React</div>
-            <div className="bubble glass-bubble">AI/ML</div>
-            <div className="bubble glass-bubble">Three.js</div>
-            <div className="bubble glass-bubble">Python</div>
-            <div className="bubble glass-bubble">Node.js</div>
-            <div className="bubble glass-bubble">TypeScript</div>
-            <div className="bubble glass-bubble">Deep Learning</div>
-            <div className="bubble glass-bubble">Computer Vision</div>
+
+          {/* Technical Skills Section */}
+          <div className="technical-skills-section">
+            <h2 className="skills-title gradient-text">Technical Skills</h2>
+            
+            {/* Programming Languages */}
+            <div className="skills-category">
+              <h3 className="category-title">Programming Languages</h3>
+              <div className="skill-bubbles">
+                <div className="bubble glass-bubble">JavaScript/TypeScript</div>
+                <div className="bubble glass-bubble">Python</div>
+                <div className="bubble glass-bubble">Java</div>
+                <div className="bubble glass-bubble">C++</div>
+              </div>
+            </div>
+
+            {/* Frontend */}
+            <div className="skills-category">
+              <h3 className="category-title">Frontend</h3>
+              <div className="skill-bubbles">
+                <div className="bubble glass-bubble">React</div>
+                <div className="bubble glass-bubble">Vue.js</div>
+                <div className="bubble glass-bubble">Three.js</div>
+                <div className="bubble glass-bubble">HTML/CSS</div>
+              </div>
+            </div>
+
+            {/* Backend & Databases */}
+            <div className="skills-category">
+              <h3 className="category-title">Backend & Databases</h3>
+              <div className="skill-bubbles">
+                <div className="bubble glass-bubble">Node.js</div>
+                <div className="bubble glass-bubble">Express</div>
+                <div className="bubble glass-bubble">MongoDB</div>
+                <div className="bubble glass-bubble">PostgreSQL</div>
+              </div>
+            </div>
+
+            {/* AI/ML */}
+            <div className="skills-category">
+              <h3 className="category-title">AI/ML</h3>
+              <div className="skill-bubbles">
+                <div className="bubble glass-bubble">TensorFlow</div>
+                <div className="bubble glass-bubble">PyTorch</div>
+                <div className="bubble glass-bubble">Computer Vision</div>
+                <div className="bubble glass-bubble">NLP</div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -303,27 +342,13 @@ function WorkExperiencePage() {
           <h1 className="main-title gradient-text">
             <span className="page-icon">💼</span> Work Experience
           </h1>
-          <p className="description">My professional journey includes impactful roles in software engineering, AI research, and product development.</p>
+          <p className="description">My professional journey in technology and cybersecurity.</p>
           <div className="experience-timeline">
             <div className="timeline-item glass-card">
-              <div className="timeline-date">2024</div>
+              <div className="timeline-date">July 2025 - Present</div>
               <div className="timeline-content">
-                <h3>Senior Software Engineer</h3>
-                <p>Leading AI/ML initiatives and full-stack development projects</p>
-              </div>
-            </div>
-            <div className="timeline-item glass-card">
-              <div className="timeline-date">2023</div>
-              <div className="timeline-content">
-                <h3>AI Research Assistant</h3>
-                <p>Conducted research in computer vision and natural language processing</p>
-              </div>
-            </div>
-            <div className="timeline-item glass-card">
-              <div className="timeline-date">2022</div>
-              <div className="timeline-content">
-                <h3>Full Stack Developer</h3>
-                <p>Developed scalable web applications using modern technologies</p>
+                <h3>Intern - KPMG</h3>
+                <p>Cybersecurity and technology consulting internship</p>
               </div>
             </div>
           </div>
@@ -338,11 +363,20 @@ function ContactPage() {
     <div className="page contact-page">
       <div className="page-header">
         <div className="glass-content">
-          <h1 className="main-title gradient-text pulse-text">
-            <span className="page-icon">📞</span> Contact
+          <h1 className="main-title gradient-text zoom-text">
+            <span className="page-icon">📱</span> Contact
           </h1>
-          <p className="description glow-text">Interested in collaborating or learning more? Reach out via the contact form below.</p>
-          <ContactForm />
+          <p className="description wave-text">Let's connect! Reach out to me on WhatsApp.</p>
+          <div className="contact-container">
+            <a 
+              href="https://wa.me/919318437008" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="whatsapp-btn glass-btn"
+            >
+              <span>💬 Chat on WhatsApp</span>
+            </a>
+          </div>
         </div>
       </div>
     </div>
@@ -354,24 +388,10 @@ function ResearchPage() {
     <div className="page research-page">
       <div className="page-header">
         <div className="glass-content">
-          <h1 className="main-title gradient-text rainbow-text">
+          <h1 className="main-title gradient-text zoom-text">
             <span className="page-icon">🔬</span> Research
           </h1>
-          <p className="description elastic-text">Exploring cutting-edge technologies and contributing to scientific advancement.</p>
-          <div className="research-grid">
-            <div className="research-item glass-card">
-              <h3>Machine Learning in Healthcare</h3>
-              <p>Developing AI models for medical diagnosis and treatment prediction</p>
-            </div>
-            <div className="research-item glass-card">
-              <h3>Computer Vision Applications</h3>
-              <p>Creating innovative visual recognition systems for real-world problems</p>
-            </div>
-            <div className="research-item glass-card">
-              <h3>Natural Language Processing</h3>
-              <p>Advancing human-computer interaction through language understanding</p>
-            </div>
-          </div>
+          <p className="description wave-text">Coming soon...</p>
         </div>
       </div>
     </div>
@@ -379,21 +399,30 @@ function ResearchPage() {
 }
 
 function ProjectsPage() {
-  // Example projects array (expand as needed)
-  const projects = [
-    { title: "AI Chatbot", description: "Conversational AI powered by transformer models." },
-    { title: "3D Portfolio", description: "Creative portfolio with Three.js and React." },
-    { title: "ML Dashboard", description: "Interactive dashboard for machine learning experiments." },
-    { title: "Computer Vision App", description: "Real-time object detection and classification system." },
-    { title: "Neural Network Visualizer", description: "Interactive tool for understanding deep learning architectures." },
-    { title: "Data Analytics Platform", description: "Comprehensive platform for data analysis and visualization." },
-    { title: "2-Tier Application Deployment", description: "Deployed a scalable two-tier application using Flask and MySQL on a Kubernetes cluster with Docker, capable of handling 10,000 concurrent users." },
-    { title: "Infrastructure as Code Deployment", description: "Provisioned and managed AWS infrastructure using Terraform with GitHub Actions CI/CD, supporting reusable and modular configurations for scalable cloud deployments." },
-    { title: "HashMap.ai", description: "Built the backend for an AI-powered job application platform using a monorepo structure, Kafka for real-time messaging between Golang and Node.js microservices." },
-    // Add more projects as needed
-  ];
-  const projectsPerPage = 6;
   const [currentPage, setCurrentPage] = useState(1);
+  const projectsPerPage = 2;
+  
+  const projects = [
+    {
+      title: "AI Scheduler",
+      description: "An intelligent scheduling application built with modern web technologies. Features smart time management and automated scheduling capabilities.",
+      link: "https://ai-scheduler-rho.vercel.app/",
+      tech: ["React", "Node.js", "AI/ML", "Vercel"]
+    },
+    {
+      title: "A11y Audit Pro",
+      description: "Web accessibility auditing tool that helps developers identify and fix accessibility issues in their applications.",
+      link: "https://a11y-audit-pro.vercel.app/",
+      tech: ["Accessibility", "JavaScript", "Web Standards", "Vercel"]
+    },
+    {
+      title: "Github Analyzer",
+      description: "A comprehensive GitHub repository analysis tool built with multiple technologies. Analyzes code, commits, and repository metrics.",
+      link: "https://github.com/idakshmalhotra/Github-analyzer",
+      tech: ["Python", "JavaScript", "CSS", "HTML"]
+    }
+  ];
+
   const totalPages = Math.ceil(projects.length / projectsPerPage);
   const startIdx = (currentPage - 1) * projectsPerPage;
   const endIdx = startIdx + projectsPerPage;
@@ -406,24 +435,58 @@ function ProjectsPage() {
           <h1 className="main-title gradient-text zoom-text">
             <span className="page-icon">🚀</span> Projects
           </h1>
-          <p className="description wave-text">Showcase of my technical projects and creative implementations.</p>
+          <p className="description wave-text">Featured projects showcasing my technical expertise and creativity.</p>
           <div className="projects-grid">
-            <ProjectCards projects={currentProjects} />
-          </div>
-          {/* Pagination Controls */}
-          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '2rem', gap: '1rem' }}>
-            <button className="glass-btn" onClick={() => setCurrentPage(p => Math.max(1, p - 1))} disabled={currentPage === 1}>&laquo; Prev</button>
-            {Array.from({ length: totalPages }, (_, i) => (
-              <button
-                key={i + 1}
-                className={`glass-btn${currentPage === i + 1 ? ' active' : ''}`}
-                style={{ minWidth: 36, fontWeight: currentPage === i + 1 ? 700 : 500 }}
-                onClick={() => setCurrentPage(i + 1)}
-              >
-                {i + 1}
-              </button>
+            {currentProjects.map((project, index) => (
+              <div key={index} className="project-card glass-card">
+                <div className="project-card-content">
+                  <h3 className="gradient-text">{project.title}</h3>
+                  <p>{project.description}</p>
+                  <div className="project-tech">
+                    {project.tech.map((tech, techIndex) => (
+                      <span key={techIndex} className="tech-tag">{tech}</span>
+                    ))}
+                  </div>
+                  <a 
+                    href={project.link} 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="cta-button"
+                  >
+                    View Project →
+                  </a>
+                </div>
+              </div>
             ))}
-            <button className="glass-btn" onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))} disabled={currentPage === totalPages}>Next &raquo;</button>
+          </div>
+
+          {/* Pagination Controls */}
+          <div className="pagination-controls">
+            <button 
+              className="glass-btn" 
+              onClick={() => setCurrentPage(p => Math.max(1, p - 1))} 
+              disabled={currentPage === 1}
+            >
+              ← Previous
+            </button>
+            <div className="page-numbers">
+              {Array.from({ length: totalPages }, (_, i) => (
+                <button
+                  key={i + 1}
+                  className={`glass-btn${currentPage === i + 1 ? ' active' : ''}`}
+                  onClick={() => setCurrentPage(i + 1)}
+                >
+                  {i + 1}
+                </button>
+              ))}
+            </div>
+            <button 
+              className="glass-btn" 
+              onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))} 
+              disabled={currentPage === totalPages}
+            >
+              Next →
+            </button>
           </div>
         </div>
       </div>
@@ -441,7 +504,7 @@ function BlogsPage() {
           </h1>
           <p className="description slide-in-text">Sharing insights, tutorials, and thoughts on technology and innovation.</p>
           <div className="blogs-container">
-            <BlogTiles mediumLinks={["https://medium.com/@yourusername/latest"]} />
+            <BlogTiles mediumLinks={["https://medium.com/feed/@iamdakshmalhotra"]} />
           </div>
         </div>
       </div>
@@ -457,22 +520,18 @@ function EducationPage() {
           <h1 className="main-title gradient-text bounce-text">
             <span className="page-icon">🎓</span> Education
           </h1>
-          <p className="description elastic-text">My academic journey and continuous learning in technology and AI.</p>
+          <p className="description elastic-text">Currently pursuing my Bachelor's degree in Computer Science.</p>
           <div className="education-cards">
             <div className="edu-card glass-card">
-              <h3>Computer Science Degree</h3>
-              <p>Bachelor's in Computer Science</p>
-              <p>University Name - 2021</p>
-            </div>
-            <div className="edu-card glass-card">
-              <h3>AI/ML Specialization</h3>
-              <p>Machine Learning and Deep Learning</p>
-              <p>Tech Institute - 2022</p>
-            </div>
-            <div className="edu-card glass-card">
-              <h3>Full Stack Development</h3>
-              <p>Modern Web Development Technologies</p>
-              <p>Online Certification - 2023</p>
+              <h3>Bachelor of Technology</h3>
+              <p>Computer Science Engineering</p>
+              <p>Maharaja Surajmal Institute of Technology</p>
+              <p className="edu-duration">2023 - 2027</p>
+              <div className="edu-details">
+                <p>• Currently in Third Year</p>
+                <p>• Specializing in Computer Science and Engineering</p>
+                <p>• Focus on Advanced Programming, Data Structures, and Software Development</p>
+              </div>
             </div>
           </div>
         </div>
@@ -486,117 +545,14 @@ function ResumePage() {
     <div className="page resume-page">
       <div className="page-header">
         <div className="glass-content">
-          <h1 className="main-title gradient-text wave-text">
+          <h1 className="main-title gradient-text zoom-text">
             <span className="page-icon">📄</span> Resume
           </h1>
-          <p className="description fade-in-text">Professional summary of my skills, experience, and achievements.</p>
-          
+          <p className="description wave-text">Download my resume to learn more about my qualifications and experience.</p>
           <div className="resume-container">
-            {/* Download Button */}
-            <div className="resume-download glass-card">
-              <h3 className="gradient-text">📄 Download Resume</h3>
-              <p>Get a PDF version of my complete resume</p>
-              <button 
-                className="cta-button"
-                onClick={() => window.open('/resume.pdf', '_blank')}
-              >
-                Download PDF 📥
-              </button>
-            </div>
-
-            {/* Resume Sections */}
-            <div className="resume-sections">
-              {/* Summary */}
-              <div className="resume-section glass-card">
-                <h3 className="section-title gradient-text">Professional Summary</h3>
-                <p>Experienced Software & AI Engineer with expertise in full-stack development, machine learning, and interactive web technologies. Passionate about creating innovative solutions and pushing the boundaries of what's possible with technology.</p>
-              </div>
-
-              {/* Skills */}
-              <div className="resume-section glass-card">
-                <h3 className="section-title gradient-text">Technical Skills</h3>
-                <div className="skills-grid">
-                  <div className="skill-category">
-                    <h4>Programming Languages</h4>
-                    <div className="skill-tags">
-                      <span className="skill-tag">JavaScript/TypeScript</span>
-                      <span className="skill-tag">Python</span>
-                      <span className="skill-tag">Java</span>
-                      <span className="skill-tag">C++</span>
-                    </div>
-                  </div>
-                  <div className="skill-category">
-                    <h4>Frontend</h4>
-                    <div className="skill-tags">
-                      <span className="skill-tag">React</span>
-                      <span className="skill-tag">Vue.js</span>
-                      <span className="skill-tag">Three.js</span>
-                      <span className="skill-tag">HTML/CSS</span>
-                    </div>
-                  </div>
-                  <div className="skill-category">
-                    <h4>Backend & Databases</h4>
-                    <div className="skill-tags">
-                      <span className="skill-tag">Node.js</span>
-                      <span className="skill-tag">Express</span>
-                      <span className="skill-tag">MongoDB</span>
-                      <span className="skill-tag">PostgreSQL</span>
-                    </div>
-                  </div>
-                  <div className="skill-category">
-                    <h4>AI/ML</h4>
-                    <div className="skill-tags">
-                      <span className="skill-tag">TensorFlow</span>
-                      <span className="skill-tag">PyTorch</span>
-                      <span className="skill-tag">Computer Vision</span>
-                      <span className="skill-tag">NLP</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Experience */}
-              <div className="resume-section glass-card">
-                <h3 className="section-title gradient-text">Work Experience</h3>
-                <div className="experience-item">
-                  <div className="experience-header">
-                    <h4>Senior Software Engineer</h4>
-                    <span className="experience-date">2024 - Present</span>
-                  </div>
-                  <p className="company">Tech Company Inc.</p>
-                  <ul>
-                    <li>Led AI/ML initiatives and full-stack development projects</li>
-                    <li>Developed scalable web applications using modern technologies</li>
-                    <li>Mentored junior developers and conducted code reviews</li>
-                  </ul>
-                </div>
-                <div className="experience-item">
-                  <div className="experience-header">
-                    <h4>AI Research Assistant</h4>
-                    <span className="experience-date">2023 - 2024</span>
-                  </div>
-                  <p className="company">Research Institute</p>
-                  <ul>
-                    <li>Conducted research in computer vision and natural language processing</li>
-                    <li>Published papers in top-tier conferences</li>
-                    <li>Developed novel algorithms for image recognition</li>
-                  </ul>
-                </div>
-              </div>
-
-              {/* Education */}
-              <div className="resume-section glass-card">
-                <h3 className="section-title gradient-text">Education</h3>
-                <div className="education-item">
-                  <div className="education-header">
-                    <h4>Bachelor of Science in Computer Science</h4>
-                    <span className="education-date">2019 - 2023</span>
-                  </div>
-                  <p className="institution">University Name</p>
-                  <p>GPA: 3.8/4.0 | Relevant Coursework: Data Structures, Algorithms, Machine Learning, Computer Vision</p>
-                </div>
-              </div>
-            </div>
+            <a href="/resume.pdf" target="_blank" rel="noopener noreferrer" className="download-btn glass-btn">
+              Download Resume (PDF) →
+            </a>
           </div>
         </div>
       </div>
