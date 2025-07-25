@@ -187,7 +187,7 @@ function BlogTiles({ mediumLinks }: { mediumLinks: string[] }) {
 }
 
 // ProjectCards: Displays featured projects
-function ProjectCards({ projects }: { projects: any[] }) {
+export function ProjectCards({ projects }: { projects: any[] }) {
   return (
     <>
       {projects.map((proj, idx) => (
@@ -204,7 +204,7 @@ function ProjectCards({ projects }: { projects: any[] }) {
 }
 
 // ContactForm: Simple contact form
-function ContactForm() {
+export function ContactForm() {
   const [form, setForm] = useState({ name: '', email: '', message: '' });
   const [sent, setSent] = useState(false);
 
