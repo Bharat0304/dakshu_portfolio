@@ -406,7 +406,7 @@ function ProjectsPage() {
     {
       title: "AI Scheduler",
       description: "An intelligent scheduling application built with modern web technologies. Features smart time management and automated scheduling capabilities.",
-      link: "https://ai-scheduler-eta.vercel.app/",
+      link: "https://ai-scheduler-1ji937cvg-bharat-s-projects-3e1e346b.vercel.app/",
       tech: ["React", "Node.js", "AI/ML", "Vercel"]
     },
     {
