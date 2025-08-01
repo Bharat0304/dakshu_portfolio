@@ -418,7 +418,7 @@ function ProjectsPage() {
     {
       title: "Github Analyzer",
       description: "A comprehensive GitHub repository analysis tool built with multiple technologies. Analyzes code, commits, and repository metrics.",
-      link: "https://github-analyzer-1-gilt.vercel.app/",
+      link: "https://github.com/idakshmalhotra/Github-analyzer",
       tech: ["Python", "JavaScript", "CSS", "HTML"]
     }
   ];
